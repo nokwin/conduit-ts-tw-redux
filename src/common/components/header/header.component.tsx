@@ -7,7 +7,7 @@ interface HeaderProps {}
 
 export const Header: FC<HeaderProps> = () => {
   const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
-    clsx('py-navItem', {
+    clsx('py-navItem hover:text-black/60 hover:no-underline', {
       'text-black/30': !isActive,
       'text-black/80': isActive,
     });
