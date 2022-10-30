@@ -25,7 +25,7 @@ export const Header: FC<HeaderProps> = () => {
             </Link>
             <ul className="pl-0 mb-0 list-none flex">
               <li>
-                <NavLink to="/" className={navLinkClasses}>
+                <NavLink to="/" className={navLinkClasses} end>
                   Home
                 </NavLink>
               </li>
