@@ -7,6 +7,7 @@ import { useGetGlobalFeedQuery } from '../../api/repository';
 import { FEED_PAGE_SIZE } from '../../consts';
 import { ArticleList } from '../article-list/article-list.component';
 import { FeedToggle } from '../feed-toggle/feed-toggle.component';
+import { TagCloud } from '../tag-cloud/tag-cloud.component';
 
 interface FeedProps {}
 
@@ -22,6 +23,7 @@ export const Feed: FC<FeedProps> = () => {
 
   const { data, error, isLoading, isFetching } = useGetGlobalFeedQuery({
     page,
+    tag: searchParams.get('tag'),
   });
 
   if (isLoading || isFetching) {
@@ -54,7 +56,9 @@ export const Feed: FC<FeedProps> = () => {
             />
           </nav>
         </div>
-        <div className="w-1/4">tags</div>
+        <div className="w-1/4 pl-3">
+          <TagCloud />
+        </div>
       </div>
     </Container>
   );

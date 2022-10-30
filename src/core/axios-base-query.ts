@@ -8,14 +8,14 @@ export const axiosBaseQuery =
   ): BaseQueryFn<
     {
       url: string;
-      method: AxiosRequestConfig['method'];
+      method?: AxiosRequestConfig['method'];
       data?: AxiosRequestConfig['data'];
       params?: AxiosRequestConfig['params'];
     },
     unknown,
     unknown
   > =>
-  async ({ url, method, data, params }) => {
+  async ({ url, method = 'get', data, params }) => {
     try {
       const result = await axios({ url: baseUrl + url, method, data, params });
       return { data: result.data };
