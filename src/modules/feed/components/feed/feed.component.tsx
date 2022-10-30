@@ -48,7 +48,7 @@ export const Feed: FC<FeedProps> = () => {
               nextLabel={null}
               containerClassName="flex"
               pageClassName="group"
-              pageLinkClassName="p-3 text-conduit-green bg-white border border-conduit-lightenGray -ml-px group-[&:nth-child(2)]:rounded-l group-[&:nth-last-child(2)]:rounded-r hover:bg-conduit-pageHoverBg"
+              pageLinkClassName="p-3 text-conduit-green bg-white border border-conduit-gray-300 -ml-px group-[&:nth-child(2)]:rounded-l group-[&:nth-last-child(2)]:rounded-r hover:bg-conduit-gray-200"
               activeClassName="active group"
               activeLinkClassName="group-[.active]:bg-conduit-green group-[.active]:text-white group-[.active]:border-conduit-green"
               onPageChange={handlePageChange}
