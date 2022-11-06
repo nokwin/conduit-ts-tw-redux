@@ -1,9 +1,10 @@
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container } from '../../../common/components/container/container.component';
-import { useGetSignelArticleQuery } from '../api/repository';
+import { useGetSingleArticleQuery } from '../api/repository';
 import { ArticleBanner } from '../components/article-banner/article-banner.component';
 import { ArticleMeta } from '../components/article-meta/article-meta.component';
+import { CommentsList } from '../components/comments-list/comments-list.component';
 import { TagList } from '../components/tag-list/tag-list.component';
 
 interface ArticlePageProps {}
@@ -14,7 +15,7 @@ const convertNewLines = (body: string) => {
 
 export const ArticlePage: FC<ArticlePageProps> = () => {
   const { slug } = useParams();
-  const { data, isLoading } = useGetSignelArticleQuery({ slug: slug! });
+  const { data, isLoading } = useGetSingleArticleQuery({ slug: slug! });
 
   if (isLoading) {
     return null;
@@ -50,6 +51,8 @@ export const ArticlePage: FC<ArticlePageProps> = () => {
             likes={data.article.favoritesCount}
           />
         </div>
+
+        <CommentsList />
       </Container>
     </>
   );
