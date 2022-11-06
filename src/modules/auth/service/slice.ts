@@ -14,7 +14,6 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<SignUpInDTO['user']>) => {
-      debugger;
       state.user = {
         ...action.payload,
       };
