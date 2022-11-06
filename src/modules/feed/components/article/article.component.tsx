@@ -20,7 +20,7 @@ export const Article: FC<ArticleProps> = ({
     <article>
       <div className="border-t border-black/10 py-6">
         <div className="mb-4 font-light flex justify-between">
-          <ArticleAuthor author={author} createdAt={createdAt} />
+          <ArticleAuthor author={author} publishedAt={createdAt} />
           <FavoriteButton count={favoritesCount} />
         </div>
         <Link

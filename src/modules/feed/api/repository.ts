@@ -3,6 +3,7 @@ import { realWorldBaseQuery } from '../../../core/api/realworld-base-query';
 import { FEED_PAGE_SIZE } from '../consts';
 import { FeedArticle } from './dto/global-feed.in';
 import { PopularTagsInDTO } from './dto/popular-tags.in';
+import { SingleArticleInDTO } from './dto/single-article.in';
 import { transformResponse } from './utils';
 
 interface BaseFeedParams {
@@ -21,6 +22,10 @@ interface ProfilePeedParams extends BaseFeedParams {
 export interface FeedData {
   articles: FeedArticle[];
   articlesCount: number;
+}
+
+interface SingleArticleParams {
+  slug: string;
 }
 
 export const feedApi = createApi({
@@ -55,6 +60,11 @@ export const feedApi = createApi({
         url: '/tags',
       }),
     }),
+    getSignelArticle: builder.query<SingleArticleInDTO, SingleArticleParams>({
+      query: ({ slug }) => ({
+        url: `/articles/${slug}`,
+      }),
+    }),
   }),
 });
 
@@ -62,4 +72,5 @@ export const {
   useGetGlobalFeedQuery,
   useGetProfileFeedQuery,
   useGetPopularTagsQuery,
+  useGetSignelArticleQuery,
 } = feedApi;
