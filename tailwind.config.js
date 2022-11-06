@@ -27,6 +27,7 @@ module.exports = {
           },
           green: '#5CB85C',
           darkGreen: '#3d8b3d',
+          red: '#B85C5C',
         },
       },
       spacing: {
@@ -56,6 +57,9 @@ module.exports = {
       lineHeight: {
         articleTitle: '1.1',
         articleBody: '1.8rem',
+      },
+      opacity: {
+        15: '0.15',
       },
     },
   },
