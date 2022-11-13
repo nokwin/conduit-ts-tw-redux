@@ -14,7 +14,7 @@ interface GlobalFeedPageProps {}
 
 export const GlobalFeedPage: FC<GlobalFeedPageProps> = () => {
   const { isLoggedIn } = useAuth();
-  const personalFeed = useMatch(routes.personalFeed);
+  const personalFeed = useMatch(routes.personalFeed.path);
 
   const [searchParams] = useSearchParams();
   const { page } = usePageParam();
