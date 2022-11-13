@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Banner } from '../../../common/components/banner/banner.component';
 import { Container } from '../../../common/components/container/container.component';
+import { useAuth } from '../../auth/hooks/use-auth';
 import { useGetGlobalFeedQuery } from '../api/repository';
 import { FeedToggle } from '../components/feed-toggle/feed-toggle.component';
 import { Feed } from '../components/feed/feed.component';
@@ -13,15 +14,16 @@ interface GlobalFeedPageProps {}
 export const GlobalFeedPage: FC<GlobalFeedPageProps> = () => {
   const [searchParams] = useSearchParams();
   const { page } = usePageParam();
-
   const { data, error, isLoading, isFetching } = useGetGlobalFeedQuery({
     page,
     tag: searchParams.get('tag'),
   });
 
+  const { isLoggedIn } = useAuth();
+
   return (
     <>
-      <Banner />
+      {!isLoggedIn && <Banner />}
       <Container>
         <FeedToggle />
         <div className="flex">
