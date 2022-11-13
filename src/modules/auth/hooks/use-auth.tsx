@@ -36,5 +36,5 @@ export const useAuth = () => {
     dispatch(setUser(null));
   };
 
-  return { isLoggedIn, signIn, signUp, logOut };
+  return { isLoggedIn, signIn, signUp, logOut, user };
 };
