@@ -1,5 +1,9 @@
 import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../../../../common/components/button/button.component';
 import { Container } from '../../../../common/components/container/container.component';
+import { routes } from '../../../../core/routes';
+import { useAuth } from '../../../auth/hooks/use-auth';
 import { Profile } from '../../api/dto/get-profile.in';
 import { FollowButton } from '../follow-button/follow-button.component';
 
@@ -8,6 +12,13 @@ interface ProfileBannerProps {
 }
 
 export const ProfileBanner: FC<ProfileBannerProps> = ({ profile }) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const goToSettings = () => {
+    navigate(routes.settings.path);
+  };
+
   return (
     <div className="bg-conduit-gray-100 pt-8 pb-4 mb-8">
       <Container>
@@ -20,7 +31,14 @@ export const ProfileBanner: FC<ProfileBannerProps> = ({ profile }) => {
           <h2 className="text-center font-bold text-2xl">{profile.username}</h2>
         </div>
         <div className="flex justify-end">
-          <FollowButton username={profile.username} />
+          {user?.username !== profile.username ? (
+            <FollowButton username={profile.username} />
+          ) : (
+            <Button onClick={goToSettings}>
+              <i className="mr-1 ion-gear-a" />
+              Edit profile settings
+            </Button>
+          )}
         </div>
       </Container>
     </div>
