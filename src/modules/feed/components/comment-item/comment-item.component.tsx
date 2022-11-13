@@ -6,12 +6,16 @@ interface CommentItemProps {
   body: string;
   author: Author;
   publishedAt: string;
+  slug: string;
+  isFavorited: boolean;
 }
 
 export const CommentItem: FC<CommentItemProps> = ({
   body,
   author,
   publishedAt,
+  slug,
+  isFavorited,
 }) => {
   return (
     <div className="border border-conduit-gray-250 rounded">
@@ -26,6 +30,8 @@ export const CommentItem: FC<CommentItemProps> = ({
           showActionButtons={false}
           authorDirection="ROW"
           authorNameSize="SM"
+          slug={slug}
+          isFavorited={isFavorited}
         />
       </div>
     </div>

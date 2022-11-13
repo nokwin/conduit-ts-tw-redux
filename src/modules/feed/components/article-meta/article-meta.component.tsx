@@ -10,6 +10,8 @@ import { FavoriteButton } from '../favorite-button/favorite-button.component';
 interface ArticleMetaProps {
   author: Author;
   publishedAt: string;
+  slug: string;
+  isFavorited: boolean;
   authorNameStyle?: ComponentProps<typeof ArticleAuthor>['nameStyle'];
   authorDirection?: ComponentProps<typeof ArticleAuthor>['direction'];
   authorNameSize?: ComponentProps<typeof ArticleAuthor>['nameSize'];
@@ -25,6 +27,8 @@ export const ArticleMeta: FC<ArticleMetaProps> = ({
   showActionButtons = true,
   authorDirection,
   authorNameSize,
+  slug,
+  isFavorited,
 }) => {
   return (
     <div>
@@ -40,7 +44,12 @@ export const ArticleMeta: FC<ArticleMetaProps> = ({
       {showActionButtons && (
         <div className="inline-flex gap-4">
           <FollowButton username={author.username} btnStyle="LIGHT" />
-          <FavoriteButton count={likes || 0} extended />
+          <FavoriteButton
+            count={likes || 0}
+            extended
+            slug={slug}
+            isFavorited={isFavorited}
+          />
         </div>
       )}
     </div>
