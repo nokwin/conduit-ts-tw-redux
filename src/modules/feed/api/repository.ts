@@ -4,6 +4,8 @@ import { FEED_PAGE_SIZE } from '../consts';
 import { ArticleCommentsInDTO } from './dto/article-comments.in';
 import { CreateArticleInDTO } from './dto/create-article.in';
 import { CreateArticleOutDTO } from './dto/create-article.out';
+import { EditArticleInDTO } from './dto/edit-article.in';
+import { EditArticleOutDTO } from './dto/edit-article.out';
 import { FavoriteArticleInDTO } from './dto/favorite-article.in';
 import { FeedArticle } from './dto/global-feed.in';
 import { PopularTagsInDTO } from './dto/popular-tags.in';
@@ -42,6 +44,10 @@ interface CreateArticleParams {
   description: string;
   body: string;
   tags: string;
+}
+
+interface EditArticleParams extends CreateArticleParams {
+  slug: string;
 }
 
 export const feedApi = createApi({
@@ -138,6 +144,27 @@ export const feedApi = createApi({
         };
       },
     }),
+    editArticle: builder.mutation<EditArticleInDTO, EditArticleParams>({
+      query: ({ title, description, body, tags, slug }) => {
+        const data: EditArticleOutDTO = {
+          article: {
+            title,
+            description,
+            body,
+            tagList: tags.split(',').map((tag) => tag.trim()),
+          },
+        };
+
+        return {
+          url: `/articles/${slug}`,
+          method: 'put',
+          data,
+        };
+      },
+      onQueryStarted: async ({}, { dispatch, queryFulfilled, getState }) => {
+        await replaceCachedArticle(getState, queryFulfilled, dispatch, feedApi);
+      },
+    }),
   }),
 });
 
@@ -150,4 +177,5 @@ export const {
   useFavoriteArticleMutation,
   useUnfavoriteArticleMutation,
   useCreateArticleMutation,
+  useEditArticleMutation,
 } = feedApi;

@@ -45,6 +45,7 @@ const updateFeed = <Q>(
           } else {
             draft.article.favorited = data.article.favorited;
             draft.article.favoritesCount = data.article.favoritesCount;
+            draft.article.tagList = data.article.tagList;
           }
         }
       )

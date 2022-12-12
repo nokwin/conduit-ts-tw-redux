@@ -1,4 +1,5 @@
 import { ComponentProps, FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../../common/components/button/button.component';
 import { useAuth } from '../../../auth/hooks/use-auth';
 import { FollowButton } from '../../../profile/components/follow-button/follow-button.component';
@@ -34,6 +35,11 @@ export const ArticleMeta: FC<ArticleMetaProps> = ({
 }) => {
   const auth = useAuth();
 
+  const navigate = useNavigate();
+  const navigateToEdit = () => {
+    navigate(`/editor/${slug}`);
+  };
+
   return (
     <div>
       <div className="inline-block">
@@ -49,7 +55,7 @@ export const ArticleMeta: FC<ArticleMetaProps> = ({
         <div className="inline-flex gap-4">
           {auth.user?.username === author.username ? (
             <>
-              <Button>
+              <Button onClick={navigateToEdit}>
                 <i className="ion-edit" /> Edit Article
               </Button>
               <Button btnStyle="DANGER">
