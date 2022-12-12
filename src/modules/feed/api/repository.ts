@@ -70,6 +70,7 @@ export const feedApi = createApi({
       }),
     }),
     getSingleArticle: builder.query<SingleArticleInDTO, SingleArticleParams>({
+      keepUnusedDataFor: 1,
       query: ({ slug }) => ({
         url: `/articles/${slug}`,
       }),

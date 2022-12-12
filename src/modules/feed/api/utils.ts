@@ -1,7 +1,8 @@
 import { Drafted } from 'immer/dist/internal';
 import { RootState } from '../../../store/store';
 import { FeedArticle, GlobalFeedInDTO } from './dto/global-feed.in';
-import { FeedData, GlobalFeedParams } from './repository';
+import { SingleArticleInDTO } from './dto/single-article.in';
+import { FeedData } from './repository';
 
 export const transformResponse = (response: GlobalFeedInDTO) => {
   return {
@@ -31,13 +32,18 @@ const updateFeed = <Q>(
       feedApi.util.updateQueryData(
         feedKey,
         queryItem!.originalArgs as Q,
-        (draft: Drafted<FeedData>) => {
-          const updateId = draft.articles.findIndex(
-            (article) => article.slug === data.article.slug
-          );
+        (draft: Drafted<FeedData> | Drafted<SingleArticleInDTO>) => {
+          if ('articles' in draft) {
+            const updateId = draft.articles.findIndex(
+              (article) => article.slug === data.article.slug
+            );
 
-          if (updateId >= 0) {
-            draft.articles[updateId] = data.article;
+            if (updateId >= 0) {
+              draft.articles[updateId] = data.article;
+            }
+          } else {
+            draft.article.favorited = data.article.favorited;
+            draft.article.favoritesCount = data.article.favoritesCount;
           }
         }
       )
@@ -59,5 +65,6 @@ export const replaceCachedArticle = async (
 
     updateFeed('getGlobalFeed', data, feedKeys, state, dispatch, feedApi);
     updateFeed('getProfileFeed', data, feedKeys, state, dispatch, feedApi);
+    updateFeed('getSingleArticle', data, feedKeys, state, dispatch, feedApi);
   } catch (e) {}
 };
