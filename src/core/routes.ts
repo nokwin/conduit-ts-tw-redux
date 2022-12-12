@@ -1,6 +1,7 @@
 import { SignInPage } from '../modules/auth/pages/sign-in.page';
 import { SignUpPage } from '../modules/auth/pages/sign-up.page';
 import { ArticlePage } from '../modules/feed/pages/article.page';
+import { EditorPage } from '../modules/feed/pages/editor.page';
 import { GlobalFeedPage } from '../modules/feed/pages/global-feed.page';
 import { ProfilePage } from '../modules/profile/pages/profile.page';
 
@@ -36,5 +37,9 @@ export const routes = {
   settings: {
     path: '/settings',
     Element: GlobalFeedPage,
+  },
+  editor: {
+    path: '/editor',
+    Element: EditorPage,
   },
 };

@@ -8,6 +8,7 @@ import { Container } from '../../../common/components/container/container.compon
 import { Input } from '../../../common/components/input/input.component';
 import { Button } from '../../../common/components/button/button.component';
 import { useAuth } from '../hooks/use-auth';
+import { ErrorsList } from '../../../common/components/errors-list/errors-list.component';
 
 interface SignInPageProps {}
 
@@ -53,15 +54,7 @@ export const SignInPage: FC<SignInPageProps> = () => {
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
-        <ul className="list-disc pl-10">
-          {(
-            Object.keys(formState.errors) as (keyof typeof formState.errors)[]
-          ).map((field) => (
-            <li key={`error-${field}`} className="text-conduit-red font-bold">
-              {formState.errors[field]!.message}
-            </li>
-          ))}
-        </ul>
+        <ErrorsList errors={formState.errors} />
         <Input placeholder="Email" type="email" {...register('email')} />
         <Input
           placeholder="Password"
