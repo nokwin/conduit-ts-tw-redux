@@ -33,7 +33,7 @@ export const CommentsList: FC<CommentsListProps> = () => {
           author={comment.author}
           publishedAt={comment.createdAt}
           slug={slug!}
-          isFavorited={false}
+          commentId={comment.id}
         />
       ))}
     </div>

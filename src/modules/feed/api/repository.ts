@@ -14,6 +14,7 @@ import { PopularTagsInDTO } from './dto/popular-tags.in';
 import { SingleArticleInDTO } from './dto/single-article.in';
 import {
   addNewCommentToCache,
+  removeCommentFromCache,
   replaceCachedArticle,
   transformResponse,
 } from './utils';
@@ -63,6 +64,11 @@ interface EditArticleParams extends CreateArticleParams {
 interface CreateCommentParams {
   articleSlug: string;
   comment: string;
+}
+
+interface DeleteCommentParams {
+  id: number;
+  articleSlug: string;
 }
 
 export const feedApi = createApi({
@@ -216,6 +222,23 @@ export const feedApi = createApi({
         await addNewCommentToCache(getState, queryFulfilled, dispatch);
       },
     }),
+
+    deleteComment: builder.mutation<any, DeleteCommentParams>({
+      query: ({ id, articleSlug }) => {
+        return {
+          url: `/articles/${articleSlug}/comments/${id}`,
+          method: 'delete',
+        };
+      },
+      onQueryStarted: async (
+        { id },
+        { dispatch, queryFulfilled, getState }
+      ) => {
+        await removeCommentFromCache(getState, queryFulfilled, dispatch, {
+          id,
+        });
+      },
+    }),
   }),
 });
 
@@ -231,4 +254,5 @@ export const {
   useEditArticleMutation,
   useDeleteArticleMutation,
   useCreateCommentMutation,
+  useDeleteCommentMutation,
 } = feedApi;

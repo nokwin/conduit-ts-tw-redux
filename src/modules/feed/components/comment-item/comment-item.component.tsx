@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import { Author } from '../../api/dto/global-feed.in';
 import { ArticleMeta } from '../article-meta/article-meta.component';
+import { CommentMeta } from '../comment-meta/comment-meta.component';
 
 interface CommentItemProps {
   body: string;
   author: Author;
   publishedAt: string;
   slug: string;
-  isFavorited: boolean;
+  commentId: number;
 }
 
 export const CommentItem: FC<CommentItemProps> = ({
@@ -15,7 +16,7 @@ export const CommentItem: FC<CommentItemProps> = ({
   author,
   publishedAt,
   slug,
-  isFavorited,
+  commentId,
 }) => {
   return (
     <div className="border border-conduit-gray-250 rounded">
@@ -23,15 +24,14 @@ export const CommentItem: FC<CommentItemProps> = ({
         <p>{body}</p>
       </div>
       <div className="border-t border-conduit-gray-250 bg-conduit-gray-150 py-3 px-5">
-        <ArticleMeta
+        <CommentMeta
           authorNameStyle="GREEN"
           author={author}
           publishedAt={publishedAt}
-          showActionButtons={false}
           authorDirection="ROW"
           authorNameSize="SM"
           slug={slug}
-          isFavorited={isFavorited}
+          commentId={commentId}
         />
       </div>
     </div>

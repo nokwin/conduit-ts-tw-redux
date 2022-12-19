@@ -137,8 +137,6 @@ export const addNewCommentToCache = async (
         continue;
       }
 
-      debugger;
-
       dispatch(
         feedApi.util.updateQueryData(
           feedKey as any,
@@ -147,6 +145,49 @@ export const addNewCommentToCache = async (
             const original = draft as Drafted<ArticleCommentsInDTO>;
 
             original.comments.unshift(data.comment);
+          }
+        )
+      );
+    }
+  } catch (e) {}
+};
+
+interface RemoveFromCacheOptionsMeta {
+  id: number;
+}
+
+export const removeCommentFromCache = async (
+  getState: any,
+  queryFulfilled: any,
+  dispatch: any,
+  meta: RemoveFromCacheOptionsMeta
+) => {
+  const state = getState() as RootState;
+
+  try {
+    await queryFulfilled;
+    const feedKeys = Object.keys(state.feedApi.queries);
+    const feedKey = 'getCommentsForArticle';
+
+    for (
+      let i = 0, key = feedKeys[i], queryItem = state.feedApi.queries[key];
+      i < feedKeys.length;
+      i++, key = feedKeys[i], queryItem = state.feedApi.queries[key]
+    ) {
+      if (!key.startsWith(feedKey)) {
+        continue;
+      }
+
+      dispatch(
+        feedApi.util.updateQueryData(
+          feedKey as any,
+          queryItem!.originalArgs,
+          (draft) => {
+            const original = draft as Drafted<ArticleCommentsInDTO>;
+
+            original.comments = original.comments.filter(
+              (comment) => comment.id !== meta.id
+            );
           }
         )
       );
