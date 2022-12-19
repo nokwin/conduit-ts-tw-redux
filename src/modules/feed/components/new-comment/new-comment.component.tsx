@@ -50,7 +50,7 @@ export const NewComment: FC<NewCommentProps> = ({ slug }) => {
       await triggerCreateComment({
         articleSlug: slug,
         comment: values.comment,
-      });
+      }).unwrap();
     } catch (e) {
       toast.error("Something wen't wrong. Please, try again later");
     }

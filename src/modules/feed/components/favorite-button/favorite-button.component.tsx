@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { Button } from '../../../../common/components/button/button.component';
 import { routes } from '../../../../core/routes';
 import { useAuth } from '../../../auth/hooks/use-auth';
@@ -34,10 +35,14 @@ export const FavoriteButton: FC<FavoriteButtonProps> = ({
       return;
     }
 
-    if (isFavorited) {
-      await triggerUnfavoriteMutation({ slug });
-    } else {
-      await triggerFavoroiteMutation({ slug });
+    try {
+      if (isFavorited) {
+        await triggerUnfavoriteMutation({ slug }).unwrap();
+      } else {
+        await triggerFavoroiteMutation({ slug }).unwrap();
+      }
+    } catch (e) {
+      toast.error("Something wen't wrong. Please, try again later");
     }
   };
 

@@ -1,4 +1,5 @@
 import { ComponentProps, FC } from 'react';
+import { toast } from 'react-toastify';
 import {
   Button,
   ButtonStyleEnum,
@@ -23,10 +24,14 @@ export const FollowButton: FC<FollowButtonProps> = ({
   const [triggerUnfollow] = useUnfollowUserMutation();
 
   const toggleFollow = () => {
-    if (!isFollowed) {
-      triggerFollow({ username: encodeURIComponent(username) });
-    } else {
-      triggerUnfollow({ username: encodeURIComponent(username) });
+    try {
+      if (!isFollowed) {
+        triggerFollow({ username: encodeURIComponent(username) }).unwrap();
+      } else {
+        triggerUnfollow({ username: encodeURIComponent(username) }).unwrap();
+      }
+    } catch (e) {
+      toast.error("Something wen't wrong. Please, try again later");
     }
   };
 

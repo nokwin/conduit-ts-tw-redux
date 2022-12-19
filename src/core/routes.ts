@@ -4,6 +4,7 @@ import { ArticlePage } from '../modules/feed/pages/article.page';
 import { EditorPage } from '../modules/feed/pages/editor.page';
 import { GlobalFeedPage } from '../modules/feed/pages/global-feed.page';
 import { ProfilePage } from '../modules/profile/pages/profile.page';
+import { SettingsPage } from '../modules/profile/pages/settings.page';
 
 export const routes = {
   globalFeed: {
@@ -36,7 +37,7 @@ export const routes = {
   },
   settings: {
     path: '/settings',
-    Element: GlobalFeedPage,
+    Element: SettingsPage,
   },
   createArticle: {
     path: '/editor',
