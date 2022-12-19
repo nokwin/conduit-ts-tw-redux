@@ -8,9 +8,15 @@ import { EditArticleInDTO } from './dto/edit-article.in';
 import { EditArticleOutDTO } from './dto/edit-article.out';
 import { FavoriteArticleInDTO } from './dto/favorite-article.in';
 import { FeedArticle } from './dto/global-feed.in';
+import { NewCommentInDTO } from './dto/new-comment.in';
+import { NewCommentOutDTO } from './dto/new-comment.out';
 import { PopularTagsInDTO } from './dto/popular-tags.in';
 import { SingleArticleInDTO } from './dto/single-article.in';
-import { replaceCachedArticle, transformResponse } from './utils';
+import {
+  addNewCommentToCache,
+  replaceCachedArticle,
+  transformResponse,
+} from './utils';
 
 interface BaseFeedParams {
   page: number;
@@ -52,6 +58,11 @@ interface DeleteArticleParams {
 
 interface EditArticleParams extends CreateArticleParams {
   slug: string;
+}
+
+interface CreateCommentParams {
+  articleSlug: string;
+  comment: string;
 }
 
 export const feedApi = createApi({
@@ -103,6 +114,7 @@ export const feedApi = createApi({
       ArticleCommentsInDTO,
       SingleArticleParams
     >({
+      keepUnusedDataFor: 1,
       query: ({ slug }) => ({
         url: `/articles/${slug}/comments`,
       }),
@@ -185,6 +197,25 @@ export const feedApi = createApi({
         };
       },
     }),
+
+    createComment: builder.mutation<NewCommentInDTO, CreateCommentParams>({
+      query: ({ articleSlug, comment }) => {
+        const data: NewCommentOutDTO = {
+          comment: {
+            body: comment,
+          },
+        };
+
+        return {
+          url: `/articles/${articleSlug}/comments`,
+          method: 'post',
+          data,
+        };
+      },
+      onQueryStarted: async ({}, { dispatch, queryFulfilled, getState }) => {
+        await addNewCommentToCache(getState, queryFulfilled, dispatch);
+      },
+    }),
   }),
 });
 
@@ -199,4 +230,5 @@ export const {
   useCreateArticleMutation,
   useEditArticleMutation,
   useDeleteArticleMutation,
+  useCreateCommentMutation,
 } = feedApi;
