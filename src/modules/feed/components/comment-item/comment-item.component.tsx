@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { Author } from '../../api/dto/global-feed.in';
-import { ArticleMeta } from '../article-meta/article-meta.component';
 import { CommentMeta } from '../comment-meta/comment-meta.component';
 
 interface CommentItemProps {
