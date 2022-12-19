@@ -1,9 +1,11 @@
 import { ComponentProps, FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { Button } from '../../../../common/components/button/button.component';
 import { useAuth } from '../../../auth/hooks/use-auth';
 import { FollowButton } from '../../../profile/components/follow-button/follow-button.component';
 import { Author } from '../../api/dto/global-feed.in';
+import { useDeleteArticleMutation } from '../../api/repository';
 import {
   ArticleAuthor,
   NameStyleEnum,
@@ -34,10 +36,20 @@ export const ArticleMeta: FC<ArticleMetaProps> = ({
   isFavorited,
 }) => {
   const auth = useAuth();
+  const [triggerDeleteArticle, { isLoading }] = useDeleteArticleMutation();
 
   const navigate = useNavigate();
   const navigateToEdit = () => {
     navigate(`/editor/${slug}`);
+  };
+
+  const deleteArticle = async () => {
+    try {
+      await triggerDeleteArticle({ slug });
+      navigate('/');
+    } catch (e) {
+      toast.error("Something wen't wrong. Please, try again later");
+    }
   };
 
   return (
@@ -58,7 +70,11 @@ export const ArticleMeta: FC<ArticleMetaProps> = ({
               <Button onClick={navigateToEdit}>
                 <i className="ion-edit" /> Edit Article
               </Button>
-              <Button btnStyle="DANGER">
+              <Button
+                btnStyle="DANGER"
+                onClick={deleteArticle}
+                disabled={isLoading}
+              >
                 <i className="ion-trash-a" /> Delete Article
               </Button>
             </>
